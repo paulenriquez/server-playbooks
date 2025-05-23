@@ -1,0 +1,32 @@
+- name: Install Cockpit and Cockpit Navigator
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Cockpit
+      ansible.builtin.apt:
+        name: cockpit
+        state: present
+        update_cache: yes
+
+    - name: Ensure Cockpit socket is active and enabled
+      ansible.builtin.systemd:
+        name: cockpit.socket
+        enabled: yes
+        state: started
+
+    - name: Download and Install Cockpit Navigator
+      block:
+        - name: Download Cockpit Navigator
+          ansible.builtin.get_url:
+            url: https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.10/cockpit-navigator_0.5.10-1focal_all.deb
+            dest: /tmp/cockpit-navigator_0.5.10-1focal_all.deb
+            mode: "0644"
+        - name: Install Cockpit Navigator
+          ansible.builtin.apt:
+            deb: /tmp/cockpit-navigator_0.5.10-1focal_all.deb
+            state: present
+
+    - name: Modify /etc/motd.d/cockpit
+      ansible.builtin.copy:
+        dest: /etc/motd.d/cockpit
+        content: "Web Console (Cockpit) is available at Port 9090 via SSH Local Port Forwarding\n\n"

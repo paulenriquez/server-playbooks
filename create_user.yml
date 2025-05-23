@@ -1,0 +1,35 @@
+---
+- name: Create non-root, sudo user
+  vars_prompt:
+    - name: username
+      prompt: "Username"
+      private: no
+      default: admin
+
+    - name: password
+      prompt: "Password (for sudo access)"
+      private: yes
+
+    - name: public_key
+      prompt: "Public Key (e.g., 'ssh-rsa AAAA...')"
+      private: no
+
+  tasks:
+    - name: Create user
+      ansible.builtin.user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        state: present
+        groups: "sudo"
+        shell: /bin/bash
+        append: yes
+        create_home: yes
+
+    - name: Set authorized key
+      ansible.posix.authorized_key:
+        user: "{{ username }}"
+        state: present
+        key: "{{ public_key }}"
+        path: "/home/{{ username }}/.ssh/authorized_keys"
+        manage_dir: yes
+        mode: "0600"

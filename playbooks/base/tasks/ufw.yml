@@ -1,0 +1,32 @@
+- name: Configure ufw
+  become: true
+  block:
+    - name: Install ufw
+      ansible.builtin.apt:
+        name: ufw
+        state: present
+
+    - name: Enable ufw
+      community.general.ufw:
+        state: enabled
+
+    - name: Set to 'deny all incoming', 'allow all outgoing'
+      community.general.ufw:
+        default: "{{ item.policy }}"
+        direction: "{{ item.direction }}"
+      loop:
+        - { policy: deny, direction: incoming }
+        - { policy: allow, direction: outgoing }
+      notify: Restart ufw
+
+    - name: Allow ssh
+      community.general.ufw:
+        rule: allow
+        name: OpenSSH
+      notify: Restart ufw
+
+  handlers:
+    - name: Restart ufw
+      ansible.builtin.service:
+        name: ufw
+        state: restarted

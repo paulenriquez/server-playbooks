@@ -1,0 +1,5 @@
+---
+- name: Setup Coolify instance
+  hosts: coolify_servers
+  become: true
+  tasks:

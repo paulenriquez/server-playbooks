@@ -1,0 +1,16 @@
+- name: Configure ntp
+  block:
+    - name: Install chrony for ntp
+      ansible.builtin.apt:
+        name: chrony
+        state: present
+
+    - name: Ensure chrony service is started and enabled
+      ansible.builtin.service:
+        name: chrony
+        state: started
+        enabled: yes
+
+    - name: Set system timezone to UTC
+      community.general.timezone:
+        name: UTC

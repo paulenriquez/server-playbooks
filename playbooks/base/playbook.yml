@@ -1,0 +1,12 @@
+---
+- name: Setup base defaults
+  hosts: base_hosts
+  become: true
+  tasks:
+    - import_tasks: tasks/ntp.yml
+
+    - import_tasks: tasks/ssh.yml
+
+    - import_tasks: tasks/ufw.yml
+
+    - import_tasks: tasks/motd.yml
