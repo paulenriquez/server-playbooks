@@ -1,18 +1,19 @@
----
 - name: Create non-root, sudo user
+  hosts: all
   vars_prompt:
     - name: username
       prompt: "Username"
-      private: no
+      private: false
       default: admin
 
     - name: password
       prompt: "Password (for sudo access)"
-      private: yes
+      private: true
+      confirm: true
 
     - name: public_key
       prompt: "Public Key (e.g., 'ssh-rsa AAAA...')"
-      private: no
+      private: false
 
   tasks:
     - name: Create user
