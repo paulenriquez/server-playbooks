@@ -1,5 +1,6 @@
 - name: Create non-root, sudo user
   hosts: all
+  remote_user: root
   vars_prompt:
     - name: username
       prompt: "Username"
