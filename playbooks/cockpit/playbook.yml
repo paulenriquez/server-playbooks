@@ -1,5 +1,5 @@
 - name: Install Cockpit and Cockpit Navigator
-  hosts: all
+  hosts: cockpit_hosts
   become: true
   tasks:
     - name: Install Cockpit
