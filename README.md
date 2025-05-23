@@ -13,15 +13,18 @@ The target hosts must...
 - be running **Debian 12**; and...
 - have an "ansible user" — a user that authenticates via SSH public key and has sudo privileges.
 
-> [!WARNING] Debian 12 only!
+> [!WARNING]
 > These playbooks were designed with **Debian 12 in mind**. In theory, these playbooks can work with
 > other operating systems. However, that is untested and may lead to unexpected results...
 
-> [!TIP] If you need to create a user for a newly-provisoned server...
-> You can use `create_user.yml`, a special playbook that connects the server using root (via password authentication).
+> [!TIP]
+> If you need to create a user for a newly-provisoned server, you can use `create_user.yml`.
+> This is a special playbook that connects to the server using root (via password authentication).
 >
 > ```bash
-> ansible-playbook create_user.yml -l {server's address}
+> ansible-playbook create_user.yml \
+>   -l <SERVER_IP_OR_DOMAIN> \
+>   -K <ROOT_USER_PASSWORD>
 > ```
 >
 > This special playbook allows you to create a new user account, set-up its SSH public key, and grant it
@@ -68,9 +71,9 @@ You can use `inventory.example` as a basis to create your `inventory.ini` file.
 Once your `inventory.ini` file is ready, you can proceed to run any of the playbooks through...
 
 ```bash
-ansible-playbook playbooks/<PLAYBOOK ID>/playbook.yml \
+ansible-playbook playbooks/<PLAYBOOK_ID>/playbook.yml \
   -i inventory.ini \
-  -K <YOUR ansible_user PASSWORD>
+  -K <ANSIBLE_USER_PASSWORD>
 ```
 
 **Example:** If you want to run the "base" playbook...
@@ -94,13 +97,15 @@ ansible_ssh_private_key_file= # ** path to private key file associated with your
 Additionally... the execution script only leaves one slot for the sudo password (`-K` option):
 
 ```bash
-ansible-playbook playbooks/<PLAYBOOK ID>/playbook.yml \
+ansible-playbook playbooks/<PLAYBOOK_ID>/playbook.yml \
   -i inventory.ini \
-  -K <YOUR ansible_user PASSWORD>
+  -K <ANSIBLE_USER_PASSWORD>
 ```
 
 This means that by default, it assumes **you use the same username, public key, and password** across **all your servers**.
 
 Discussing the advantages and disadvantages of using the same username, public key, and passwords across different servers is beyond the scope of this README. You can do a Google search to understand the pros and cons. As always, When it comes to cybersecurity — understand your use case and the associated risks.
 
-**If you need to use different credentials per server,** it is definitely possible! Ansible natively supports this via `host_vars` and `vaults`. Please refer to the Ansible documentation for more information.
+### If you need to use different credentials per server...
+
+**It is definitely possible!** Ansible natively supports this via `host_vars` and `vaults`. Please refer to the Ansible documentation for more information.
