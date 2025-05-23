@@ -1,5 +1,9 @@
 ---
-- name: Setup Coolify instance
-  hosts: coolify_servers
+- name: Install Coolify
+  hosts: coolify_hosts
   become: true
   tasks:
+    - name: Install Coolify
+      shell: curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
+      args:
+        executable: /bin/bash
