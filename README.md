@@ -69,7 +69,7 @@ You can use `inventory.example` as a basis to create your `inventory.ini` file.
 Once your `inventory.ini` file is ready, you can proceed to run any of the playbooks through...
 
 ```bash
-ansible-playbook <PLAYBOOK_ID>/playbook.yml \
+ansible-playbook -i <PLAYBOOK_ID>/playbook.yml \
   -i inventory.ini \
   --ask-become-pass
 ```

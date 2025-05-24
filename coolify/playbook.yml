@@ -2,8 +2,32 @@
 - name: Install Coolify
   hosts: coolify_hosts
   become: true
+  pre_tasks:
+    - name: "Gathering Facts (subset: network)"
+      ansible.builtin.setup:
+        gather_subset:
+          - network
+
   tasks:
     - name: Install Coolify
       shell: curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
       args:
         executable: /bin/bash
+
+    # See https://coolify.io/docs/knowledge-base/server/openssh
+    - name: Set sshd_config 'PermitRootLogin' to 'prohibit-password'
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^#?PermitRootLogin"
+        line: "PermitRootLogin prohibit-password"
+      notify: Restart sshd
+
+    - name: Display Coolify URL
+      ansible.builtin.debug:
+        msg: "Coolify can be accessed at '{{ ansible_facts['default_ipv4']['address'] }}:8000'"
+
+  handlers:
+    - name: Restart sshd
+      ansible.builtin.service:
+        name: sshd
+        state: restarted
