@@ -24,7 +24,7 @@ The target hosts must...
 > ```bash
 > ansible-playbook create_user.yml \
 >   -l <SERVER_IP_OR_DOMAIN> \
->   -K <ROOT_USER_PASSWORD>
+>   --ask-become-pass
 > ```
 >
 > This special playbook allows you to create a new user account, set-up its SSH public key, and grant it
@@ -79,7 +79,7 @@ ansible-playbook playbooks/<PLAYBOOK_ID>/playbook.yml \
 **Example:** If you want to run the "base" playbook...
 
 ```bash
-ansible-playbook playbooks/base/playbook.yml -i inventory.ini -k {password}
+ansible-playbook playbooks/base/playbook.yml -i inventory.ini --ask-become-pass
 ```
 
 ## 🔒 Authentication (for multiple servers)
