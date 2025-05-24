@@ -144,32 +144,61 @@ echo -e "  ${YELLOW}Creating user '$USERNAME' on $SERVER_ADDRESS...${NC}"
 echo
 
 printf "*%.0s" $(seq 1 $((COLUMNS)))
+echo "RUNNING COMMANDS AS ${WHITE}root@$SERVER_ADDRESS${NC}"
+echo "See lines marked as '[RUN]' below."
+echo "-----" 
 echo
 
 # Execute commands on the remote server via SSH
-if ! sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=no root@"$SERVER_ADDRESS" << EOF
+SSH_COMMAND_OUTPUT=$(sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=no root@"$SERVER_ADDRESS" 2>&1 << EOF
+# Exit immediately if a command exits with a non-zero status.
+set -e
+
 # Create the user with specified shell, home directory, and add to sudo group
+echo
+echo "[RUN] useradd -m -s /bin/bash -G sudo \"$USERNAME\""
 useradd -m -s /bin/bash -G sudo "$USERNAME"
 
 # Set the user's password
+echo
+echo "[RUN] echo \"$USERNAME:$PASSWORD\" | chpasswd"
 echo "$USERNAME:$PASSWORD" | chpasswd
 
 # Create .ssh directory if it doesn't exist
+echo
+echo "[RUN] mkdir -p /home/\"$USERNAME\"/.ssh"
 mkdir -p /home/"$USERNAME"/.ssh
 
 # Append the public key to authorized_keys
+echo
+echo "[RUN] echo \"$PUBLIC_KEY\" >> /home/\"$USERNAME\"/.ssh/authorized_keys"
 echo "$PUBLIC_KEY" >> /home/"$USERNAME"/.ssh/authorized_keys
 
 # Set correct permissions and ownership
+echo
+
+echo "[RUN] chown -R \"$USERNAME\":\"$USERNAME\" /home/\"$USERNAME\"/.ssh"
 chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/.ssh
+
+echo "[RUN] chmod 700 /home/\"$USERNAME\"/.ssh"
 chmod 700 /home/"$USERNAME"/.ssh
+
+echo "[RUN] chmod 600 /home/\"$USERNAME\"/.ssh/authorized_keys"
 chmod 600 /home/"$USERNAME"/.ssh/authorized_keys
 EOF
-then
+)
+SSH_EXIT_CODE=$?
+echo "$SSH_COMMAND_OUTPUT"
+
+if [ $SSH_EXIT_CODE -ne 0 ]; then
   printf "*%.0s" $(seq 1 $((COLUMNS)))
   echo
   echo
-  echo -e "  ${RED}[×] Something went wrong with creation of user '$USERNAME' on $SERVER_ADDRESS.${NC}"
+  echo -e "  ${RED}[×] Something went wrong with creation of user '$USERNAME' on $SERVER_ADDRESS.${NC}"  
+  echo -e "  See the output above for more information."
+  echo
+  echo -e "${CYAN}══════════════════════════════════════════════════════════════════════════════════${NC}"
+  echo
   exit 1
 fi
 
@@ -178,6 +207,7 @@ echo
 echo
 echo -e "  ${GREEN}[✔] User '$USERNAME' successfully created!${NC}"
 echo -e "  Run ${WHITE}'ssh $USERNAME@$SERVER_ADDRESS'${NC} to log-in."
+echo
 echo -e "${CYAN}══════════════════════════════════════════════════════════════════════════════════${NC}"
 echo
 exit 0
