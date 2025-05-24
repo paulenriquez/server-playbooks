@@ -73,7 +73,7 @@ Once your `inventory.ini` file is ready, you can proceed to run any of the playb
 ```bash
 ansible-playbook playbooks/<PLAYBOOK_ID>/playbook.yml \
   -i inventory.ini \
-  -K <ANSIBLE_USER_PASSWORD>
+  --ask-become-pass
 ```
 
 **Example:** If you want to run the "base" playbook...
@@ -94,12 +94,12 @@ ansible_ssh_private_key_file= # ** path to private key file associated with your
 # List of hosts applicable to each playbook...
 ```
 
-Additionally... the execution script only leaves one slot for the sudo password (`-K` option):
+Additionally... the execution script only leaves one sudo password to be used (`--ask-become-pass` option):
 
 ```bash
 ansible-playbook playbooks/<PLAYBOOK_ID>/playbook.yml \
   -i inventory.ini \
-  -K <ANSIBLE_USER_PASSWORD>
+  --ask-become-pass
 ```
 
 This means that by default, it assumes **you use the same username, public key, and password** across **all your servers**.
