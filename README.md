@@ -69,7 +69,7 @@ You can use `inventory.example` as a basis to create your `inventory.ini` file.
 Once your `inventory.ini` file is ready, you can proceed to run any of the playbooks through...
 
 ```bash
-ansible-playbook playbooks/<PLAYBOOK_ID>/playbook.yml \
+ansible-playbook <PLAYBOOK_ID>/playbook.yml \
   -i inventory.ini \
   --ask-become-pass
 ```
@@ -77,7 +77,7 @@ ansible-playbook playbooks/<PLAYBOOK_ID>/playbook.yml \
 **Example:** If you want to run the "base" playbook...
 
 ```bash
-ansible-playbook playbooks/base/playbook.yml -i inventory.ini --ask-become-pass
+ansible-playbook base/playbook.yml -i inventory.ini --ask-become-pass
 ```
 
 ## 🔒 Authentication (for multiple servers)
@@ -95,7 +95,7 @@ ansible_ssh_private_key_file= # ** path to private key file associated with your
 Additionally... the execution script only leaves one sudo password to be used (`--ask-become-pass` option):
 
 ```bash
-ansible-playbook playbooks/<PLAYBOOK_ID>/playbook.yml \
+ansible-playbook <PLAYBOOK_ID>/playbook.yml \
   -i inventory.ini \
   --ask-become-pass
 ```
