@@ -193,9 +193,9 @@ EOF
 )
 SSH_EXIT_CODE=$?
 echo "$SSH_COMMAND_OUTPUT"
+printf "*%.0s" $(seq 1 $((COLUMNS))); echo # sshpass output separator
 
 if [ $SSH_EXIT_CODE -ne 0 ]; then
-  printf "*%.0s" $(seq 1 $((COLUMNS))); echo # sshpass output separator
   echo
   echo -e "  ${RED}[×] Something went wrong with creation of user '$USERNAME' on $SERVER_ADDRESS.${NC}"  
   echo -e "  See the output above for more information."
@@ -205,7 +205,6 @@ if [ $SSH_EXIT_CODE -ne 0 ]; then
   exit 1
 fi
 
-printf "*%.0s" $(seq 1 $((COLUMNS))); echo
 echo
 echo -e "  ${GREEN}[✔] User '$USERNAME' successfully created!${NC}"
 echo -e "  Run ${WHITE}'ssh $USERNAME@$SERVER_ADDRESS'${NC} to log-in."
