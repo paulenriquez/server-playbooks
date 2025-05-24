@@ -144,7 +144,7 @@ echo -e "  ${GREEN}$PUBLIC_KEY${NC}"
 echo
 printf "  "; printf "%.0s─" $(seq 1 $((DISPLAY_WIDTH-2))); echo # L2 Separator
 echo
-echo -e "  ${YELLOW}Creating user '$USERNAME' on $SERVER_ADDRESS...${NC}"
+echo -e "  Creating user '$USERNAME' on $SERVER_ADDRESS..."
 echo
 
 printf "*%.0s" $(seq 1 $((COLUMNS))); echo # sshpass output separator
@@ -157,30 +157,25 @@ echo
 SSH_COMMAND_OUTPUT=$(sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=no root@"$SERVER_ADDRESS" 2>&1 << EOF
 # Exit immediately if a command exits with a non-zero status.
 set -e
+echo
 
 # Create the user with specified shell, home directory, and add to sudo group
-echo
 echo "[RUN] useradd -m -s /bin/bash -G sudo \"$USERNAME\""
 useradd -m -s /bin/bash -G sudo "$USERNAME"
 
 # Set the user's password
-echo
-echo "[RUN] echo \"$USERNAME:$PASSWORD\" | chpasswd"
+echo "[RUN] echo \"$USERNAME:[hidden]\" | chpasswd"
 echo "$USERNAME:$PASSWORD" | chpasswd
 
 # Create .ssh directory if it doesn't exist
-echo
 echo "[RUN] mkdir -p /home/\"$USERNAME\"/.ssh"
 mkdir -p /home/"$USERNAME"/.ssh
 
 # Append the public key to authorized_keys
-echo
 echo "[RUN] echo \"$PUBLIC_KEY\" >> /home/\"$USERNAME\"/.ssh/authorized_keys"
 echo "$PUBLIC_KEY" >> /home/"$USERNAME"/.ssh/authorized_keys
 
 # Set correct permissions and ownership
-echo
-
 echo "[RUN] chown -R \"$USERNAME\":\"$USERNAME\" /home/\"$USERNAME\"/.ssh"
 chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/.ssh
 
@@ -189,6 +184,9 @@ chmod 700 /home/"$USERNAME"/.ssh
 
 echo "[RUN] chmod 600 /home/\"$USERNAME\"/.ssh/authorized_keys"
 chmod 600 /home/"$USERNAME"/.ssh/authorized_keys
+echo
+echo "-----"
+echo "COMPLETED."
 EOF
 )
 SSH_EXIT_CODE=$?
@@ -207,7 +205,7 @@ fi
 
 echo
 echo -e "  ${GREEN}[✔] User '$USERNAME' successfully created!${NC}"
-echo -e "  Run ${WHITE}'ssh $USERNAME@$SERVER_ADDRESS'${NC} to log-in."
+echo -e "  Use ${WHITE}'ssh $USERNAME@$SERVER_ADDRESS'${NC} to log-in."
 echo
 printf "${CYAN}%.0s═${NC}" $(seq 1 "$DISPLAY_WIDTH"); echo # L1 Separator
 echo
