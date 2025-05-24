@@ -11,18 +11,20 @@ WHITE=$'\033[1;37m'
 NC=$'\033[0m' # No Color
 
 COLUMNS=$(tput cols)
+MAX_WIDTH=100
+DISPLAY_WIDTH=$(( COLUMNS < MAX_WIDTH ? COLUMNS : MAX_WIDTH ))
 
 echo
-echo -e "${CYAN}══════════════════════════════════════════════════════════════════════════════════${NC}"
+printf "${CYAN}%.0s═${NC}" $(seq 1 "$DISPLAY_WIDTH"); echo # L1 Separator
 echo -e "  ${CYAN}create_user.sh${NC}"
-echo -e "${CYAN}══════════════════════════════════════════════════════════════════════════════════${NC}"
+printf "${CYAN}%.0s═${NC}" $(seq 1 "$DISPLAY_WIDTH"); echo # L1 Separator
 echo -e "  This script allows you to set-up a ${WHITE}non-root${NC}, ${WHITE}sudo${NC} user"
 echo -e "  for a remote ${WHITE}Debian 12${NC} server."
 echo
 echo -e "  Please ensure that the target server's root account"
 echo -e "  is accessible via SSH password authentication."
 echo
-echo -e "  ────────────────────────────────────────────────────────────────────────────────"
+printf "  "; printf "%.0s─" $(seq 1 $((DISPLAY_WIDTH-2))); echo # L2 Separator
 echo -e "  To proceed, please provide the following details..."
 echo
 
@@ -72,7 +74,7 @@ done
 
 # Prompt for new user details
 echo
-echo -e "  ────────────────────────────────────────────────────────────────────────────────"
+printf "  "; printf "%.0s─" $(seq 1 $((DISPLAY_WIDTH-2))); echo # L2 Separator
 echo -e "  New user creation — please provide the following..."
 echo
 
@@ -135,15 +137,17 @@ while true; do
     echo -e "  You must explicitly respond with 'y' to confirm"
   fi
 done
-echo -e "  Public Key set to ${GREEN}$PUBLIC_KEY${NC}"
+echo
+echo -e "  Public Key set to..."
+echo -e "  ${GREEN}$PUBLIC_KEY${NC}"
 
 echo
-echo -e "  ────────────────────────────────────────────────────────────────────────────────"
+printf "  "; printf "%.0s─" $(seq 1 $((DISPLAY_WIDTH-2))); echo # L2 Separator
 echo
 echo -e "  ${YELLOW}Creating user '$USERNAME' on $SERVER_ADDRESS...${NC}"
 echo
 
-printf "*%.0s" $(seq 1 $((COLUMNS)))
+printf "*%.0s" $(seq 1 $((COLUMNS))); echo # sshpass output separator
 echo "RUNNING COMMANDS AS ${WHITE}root@$SERVER_ADDRESS${NC}"
 echo "See lines marked as '[RUN]' below."
 echo "-----" 
@@ -191,23 +195,21 @@ SSH_EXIT_CODE=$?
 echo "$SSH_COMMAND_OUTPUT"
 
 if [ $SSH_EXIT_CODE -ne 0 ]; then
-  printf "*%.0s" $(seq 1 $((COLUMNS)))
-  echo
+  printf "*%.0s" $(seq 1 $((COLUMNS))); echo # sshpass output separator
   echo
   echo -e "  ${RED}[×] Something went wrong with creation of user '$USERNAME' on $SERVER_ADDRESS.${NC}"  
   echo -e "  See the output above for more information."
   echo
-  echo -e "${CYAN}══════════════════════════════════════════════════════════════════════════════════${NC}"
+  printf "${CYAN}%.0s═${NC}" $(seq 1 "$DISPLAY_WIDTH"); echo # L1 Separator
   echo
   exit 1
 fi
 
-printf "*%.0s" $(seq 1 $((COLUMNS)))
-echo
+printf "*%.0s" $(seq 1 $((COLUMNS))); echo
 echo
 echo -e "  ${GREEN}[✔] User '$USERNAME' successfully created!${NC}"
 echo -e "  Run ${WHITE}'ssh $USERNAME@$SERVER_ADDRESS'${NC} to log-in."
 echo
-echo -e "${CYAN}══════════════════════════════════════════════════════════════════════════════════${NC}"
+printf "${CYAN}%.0s═${NC}" $(seq 1 "$DISPLAY_WIDTH"); echo # L1 Separator
 echo
 exit 0
