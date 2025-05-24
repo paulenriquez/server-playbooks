@@ -2,11 +2,27 @@
 - name: Setup base defaults
   hosts: base_hosts
   become: true
-  tasks:
-    - import_tasks: tasks/ntp.yml
+  pre_tasks:
+    - name: Disable unattended upgrades service
+      ansible.builtin.service:
+        name: unattended-upgrades
+        state: stopped
+        enabled: no
 
+    - import_tasks: tasks/apt.yml
+
+  tasks:
     - import_tasks: tasks/ssh.yml
 
     - import_tasks: tasks/ufw.yml
 
+    - import_tasks: tasks/ntp.yml
+
     - import_tasks: tasks/motd.yml
+
+  post_tasks:
+    - name: Enable unattended upgrades service
+      ansible.builtin.service:
+        name: unattended-upgrades
+        state: started
+        enabled: yes
