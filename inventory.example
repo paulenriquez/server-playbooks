@@ -13,7 +13,3 @@
 [coolify_hosts] 
 # 192.168.1.10
 # server.example.com
-
-[user_hosts]
-# 192.168.1.10
-# server.example.com

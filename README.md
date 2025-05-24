@@ -18,16 +18,14 @@ The target hosts must...
 > other operating systems. However, that is untested and may lead to unexpected results...
 
 > [!TIP]
-> If you need to create a user for a newly-provisoned server, you can use `create_user.yml`.
-> This is a special playbook that connects to the server using root (via password authentication).
+> If you need to create a user for a newly-provisoned server, you can use `create_user.sh`.
+> This is a script that connects to the server using root (via password authentication).
 >
 > ```bash
-> ansible-playbook create_user.yml \
->   -l <SERVER_IP_OR_DOMAIN> \
->   --ask-become-pass
+> ./create_user.sh
 > ```
 >
-> This special playbook allows you to create a new user account, set-up its SSH public key, and grant it
+> This script allows you to create a new user account, set-up its SSH public key, and grant it
 > sudo privileges — perfect for use for any of these playbooks!
 
 ### For _this_ machine (control node):
