@@ -1,0 +1,10 @@
+# Prevents access through IP_ADDRESS:PORT after you've configured your instance domain.
+# See: https://github.com/coollabsio/coolify/discussions/4031
+services:
+    coolify:
+        ports: !override
+          - 127.0.0.1:8000:80
+    soketi:
+        ports: !override
+          - 127.0.0.1:6001:6001
+          - 127.0.0.1:6002:6002

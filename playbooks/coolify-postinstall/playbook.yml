@@ -1,0 +1,29 @@
+---
+- name: Close ports 8000, 6001, and 6002 from Coolify
+  hosts: coolify_hosts
+  become: true
+
+  pre_tasks:
+    - name: Validate that Coolify is installed (by checking existence of upgrade.sh)
+      stat:
+        path: /data/coolify/source/upgrade.sh
+      register: coolify_upgrade_script_stat
+
+    - name: Fail if Coolify installation is not found
+      fail:
+        msg: "Coolify installation cannot be detected. Please ensure Coolify is installed."
+      when: not coolify_upgrade_script_stat.stat.exists
+
+  tasks:
+    - name: Create docker-compose.custom.yml
+      template:
+        src: docker-compose.custom.yml.j2
+        dest: /data/coolify/source/docker-compose.custom.yml
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Restart Coolify (through upgrade.sh)
+      shell: /data/coolify/source/upgrade.sh
+      args:
+        chdir: /data/coolify/source/
