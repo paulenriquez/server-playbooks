@@ -26,3 +26,14 @@
         name: unattended-upgrades
         state: started
         enabled: yes
+
+  handlers:
+    - name: Restart sshd
+      ansible.builtin.service:
+        name: sshd
+        state: restarted
+
+    - name: Restart ufw
+      ansible.builtin.service:
+        name: ufw
+        state: restarted

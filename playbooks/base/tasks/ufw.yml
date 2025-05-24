@@ -24,9 +24,3 @@
         rule: allow
         name: OpenSSH
       notify: Restart ufw
-
-  handlers:
-    - name: Restart ufw
-      ansible.builtin.service:
-        name: ufw
-        state: restarted
