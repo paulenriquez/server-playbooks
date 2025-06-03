@@ -52,7 +52,7 @@ Sets up your server with sensible defaults. Every server, regardless of purpose,
 
 - **Hardens SSH** — enforces public key authentication as the only authentication method, disables root login
 - **Sets-up UFW** — deny all incoming (except SSH), allow all outgoing
-- **Sets-up Fail2ban** — protects against ssh brute-force by banning IPs for 24 hours after 3 failed attempts within 10 minutes.
+- **Sets-up Fail2ban** — protects against ssh brute-force by banning IPs for 24 hours after 5 failed attempts within 10 minutes.
 - **Sets-up NTP**
 - **Clears Debian MOTD**
 
