@@ -9,11 +9,6 @@
           - network
 
   tasks:
-    - name: Install Coolify
-      shell: curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
-      args:
-        executable: /bin/bash
-
     # See https://coolify.io/docs/knowledge-base/server/openssh
     - name: Set sshd_config 'PermitRootLogin' to 'prohibit-password'
       ansible.builtin.lineinfile:
@@ -21,6 +16,11 @@
         regexp: "^#?PermitRootLogin"
         line: "PermitRootLogin prohibit-password"
       notify: Restart sshd
+
+    - name: Install Coolify
+      shell: curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
+      args:
+        executable: /bin/bash
 
     - name: Display Coolify URL
       ansible.builtin.debug:
