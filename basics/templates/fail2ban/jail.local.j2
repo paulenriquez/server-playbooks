@@ -1,0 +1,24 @@
+[DEFAULT]
+# Ban hosts for 24 hours by default
+bantime = 24h
+
+# A host is banned if it has generated "maxretry" matches within "findtime" seconds.
+findtime = 10m
+
+# Number of failures before a host gets banned
+maxretry = 3
+
+# IPs to ignore (e.g., localhost, your own IP)
+# ignoreip = 127.0.0.1/8 ::1
+
+# Use UFW as the banning action, as UFW is set up by the basics playbook
+banaction = ufw
+
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+# You can override default settings for sshd jail here if needed
+# maxretry = 3
+# bantime = 30m

@@ -16,6 +16,8 @@
 
     - import_tasks: tasks/ufw.yml
 
+    - import_tasks: tasks/fail2ban.yml
+
     - import_tasks: tasks/ntp.yml
 
     - import_tasks: tasks/motd.yml
@@ -36,4 +38,9 @@
     - name: Restart ufw
       ansible.builtin.service:
         name: ufw
+        state: restarted
+
+    - name: Restart fail2ban
+      ansible.builtin.service:
+        name: fail2ban
         state: restarted
