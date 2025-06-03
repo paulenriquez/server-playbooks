@@ -1,6 +1,6 @@
 ---
 - name: Setup base defaults
-  hosts: base_hosts
+  hosts: basics_hosts
   become: true
   pre_tasks:
     - name: Disable unattended upgrades service
