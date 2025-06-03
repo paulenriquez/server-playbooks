@@ -6,7 +6,7 @@ These are configurations I would typically do for my personal VPS use-cases 😊
 
 The following playbooks are included (see **Playbooks** section below for more information):
 
-- `base` — Sensible defaults for ssh, ufw, ntp, etc.
+- `basics` — Sensible defaults for ssh, ufw, ntp, etc.
 - `cockpit` — Installs [Cockpit](https://cockpit-project.org/) & [Cockpit Navigator](https://github.com/45Drives/cockpit-navigator).
 - `coolify` — Installs [Coolify](https://coolify.io/)
 - `coolify_postinstall` — Closes ports 8000, 6001, and 6002 after Coolify is set-up (see [this GitHub discussion](https://github.com/coollabsio/coolify/discussions/4031) for more information.)
@@ -44,9 +44,9 @@ The control node (the machine from where you will orchestrate the setup) must...
 
 ## 📚 Playbooks
 
-### base
+### basics
 
-**📝 Hosts in `inventory.ini`:** `base_hosts`
+**📝 Hosts in `inventory.ini`:** `basics_hosts`
 
 Sets up your server with sensible defaults. Every server, regardless of purpose, must have these configurations. It's best to run this before any of the other playbooks.
 
@@ -77,7 +77,7 @@ Installs [Coolify](https://coolify.io/)
 - **Sets `PermitRootLogin` to `prohibit-password`** — Coolify requires this to be able to operate on the server. See https://coolify.io/docs/knowledge-base/server/openssh.
 
 > [!IMPORTANT]
-> Make sure to run `base` first before running `coolify`. This is to ensure that the `PermitRootLogin` setting isn't overriden.
+> Make sure to run `basics` first before running `coolify`. This is to ensure that the `PermitRootLogin` setting isn't overriden.
 
 Once installed, Coolify will be accessible at `http://<YOUR_SERVER_IP>:8000`
 
@@ -105,8 +105,8 @@ The inventory file is structured like so:
 ansible_user= # ** username of the "ansible user" **
 ansible_ssh_private_key_file= # ** path to private key file associated with your ansible user **
 
-[base_hosts]
-# ** list all IPs/ domains of servers you want to target with the "base" playbook **
+[basics_hosts]
+# ** list all IPs/ domains of servers you want to target with the "basics" playbook **
 
 [cockpit_hosts]
 # ** list all IPs/ domains of servers you want to target with the "cockpit" playbook **
@@ -122,10 +122,10 @@ Once your `inventory.ini` file is ready, you can proceed to run any of the playb
 ansible-playbook -i inventory.ini --ask-become-pass <PLAYBOOK_ID>/playbook.yml
 ```
 
-**Example:** If you want to run the "base" playbook...
+**Example:** If you want to run the "basics" playbook...
 
 ```bash
-ansible-playbook -i inventory.ini --ask-become-pass base/playbook.yml
+ansible-playbook -i inventory.ini --ask-become-pass basics/playbook.yml
 ```
 
 ## 🔒 Authentication (for multiple servers)
