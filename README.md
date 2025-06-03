@@ -44,56 +44,12 @@ The control node (the machine from where you will orchestrate the setup) must...
 
 ## 📚 Playbooks
 
-### basics
-
-**📝 Hosts in `inventory.ini`:** `basics_hosts`
-
-Sets up your server with sensible defaults. Every server, regardless of purpose, must have these configurations. It's best to run this before any of the other playbooks.
-
-- **Hardens SSH** — enforces public key authentication as the only authentication method, disables root login
-- **Sets-up UFW** — deny all incoming (except SSH), allow all outgoing
-- **Sets-up Fail2ban** — protects against ssh brute-force by banning IPs for 24 hours after 5 failed attempts within 10 minutes.
-- **Sets-up NTP**
-- **Clears Debian MOTD**
-
-### cockpit
-
-**📝 Hosts in `inventory.ini`:** `cockpit_hosts`
-
-Installs [Cockpit](https://cockpit-project.org/) & [Cockpit Navigator](https://github.com/45Drives/cockpit-navigator).
-
-After installation, Cockpit can be accessed via SSH local port forwarding at Port 9090:
-
-```bash
-ssh -L 9090:<YOUR_SERVER_ADDRESS>:9090 <username>@<YOUR_SERVER_ADDRESS>
-```
-
-### coolify
-
-**📝 Hosts in `inventory.ini`:** `coolify_hosts`
-
-Installs [Coolify](https://coolify.io/)
-
-- **Runs the quick installation script** — as per https://coolify.io/docs/get-started/installation
-- **Sets `PermitRootLogin` to `prohibit-password`** — Coolify requires this to be able to operate on the server. See https://coolify.io/docs/knowledge-base/server/openssh.
-
-> [!IMPORTANT]
-> Make sure to run `basics` first before running `coolify`. This is to ensure that the `PermitRootLogin` setting isn't overriden.
-
-Once installed, Coolify will be accessible at `http://<YOUR_SERVER_IP>:8000`
-
-**After installation...** proceed with creating your admin account. Then, go to **Settings** → **Instance Domain** and set your Coolify instance's domain. This will ensure that your Coolify admin panel is accessible through your own domain.
-
-### coolify_postinstall
-
-**📝 Hosts in `inventory.ini`:** `coolify_hosts` (⚠️ _Not `coolify_postinstall_hosts`_)
-
-Closes ports 8000, 6001, and 6002.
-
-This addresses the problem where, after setting your instance domain, Coolify remains accessible at `http://<YOUR_SERVER_IP>:8000`. This playbook is designed to fix that. It "unexposes" ports 8000, 6001, and 6002 from Coolify's docker containers. See [this GitHub discussion](https://github.com/coollabsio/coolify/discussions/4031) for more information.
-
-> [!CAUTION]
-> Make sure that you've successfully set-up your Coolify's **Instance Domain** before running this playbook. Otherwise, you might not be able to access your Coolify instance easily anymore.
+| Playbook            | Description                                                                                                                                                               |              Documentation               |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------: |
+| basics              | Sets up your server with sensible defaults. Every server, regardless of purpose, must have these configurations. It's best to run this before any of the other playbooks. |       [docs.md](./basics/docs.md)        |
+| cockpit             | Installs [Cockpit](https://cockpit-project.org/) & [Cockpit Navigator](https://github.com/45Drives/cockpit-navigator).                                                    |       [docs.md](./cockpit/docs.md)       |
+| coolify             | Installs [Coolify](https://coolify.io/)                                                                                                                                   |       [docs.md](./coolify/docs.md)       |
+| coolify_postinstall | Closes ports 8000, 6001, and 6002. See [this GitHub discussion](https://github.com/coollabsio/coolify/discussions/4031) for more information.                             | [docs.md](./coolify_postinstall/docs.md) |
 
 ## 💻 Usage
 
