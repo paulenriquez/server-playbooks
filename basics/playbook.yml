@@ -1,5 +1,5 @@
 ---
-- name: Setup base defaults
+- name: Setup basics
   hosts: basics_hosts
   become: true
   pre_tasks:
