@@ -6,7 +6,7 @@ These are configurations I would typically do for my personal VPS use-cases 😊
 
 The following playbooks are included (see **Playbooks** section below for more information):
 
-- `basics` — Sensible defaults for ssh, ufw, ntp, etc.
+- `basics` — Sensible defaults for ssh, ufw, fail2ban, ntp, etc.
 - `cockpit` — Installs [Cockpit](https://cockpit-project.org/) & [Cockpit Navigator](https://github.com/45Drives/cockpit-navigator).
 - `coolify` — Installs [Coolify](https://coolify.io/)
 - `coolify_postinstall` — Closes ports 8000, 6001, and 6002 after Coolify is set-up (see [this GitHub discussion](https://github.com/coollabsio/coolify/discussions/4031) for more information.)
