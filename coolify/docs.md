@@ -4,8 +4,8 @@
 
 Installs [Coolify](https://coolify.io/)
 
-- **Runs the quick installation script** — as per https://coolify.io/docs/get-started/installation
 - **Sets `PermitRootLogin` to `prohibit-password`** — Coolify requires this to be able to operate on the server. See https://coolify.io/docs/knowledge-base/server/openssh.
+- **Runs the quick installation script** — as per https://coolify.io/docs/get-started/installation
 
 > [!IMPORTANT]
 > Make sure to run `basics` first before running `coolify`. This is to ensure that the `PermitRootLogin` setting isn't overriden.
