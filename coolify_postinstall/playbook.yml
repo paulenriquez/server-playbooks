@@ -1,5 +1,5 @@
 ---
-- name: Unbind Coolify's ports 8000, 6001, and 6002
+- name: Close Coolify's ports 8000, 6001, and 6002
   hosts: coolify_hosts
   become: true
 
