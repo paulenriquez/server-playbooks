@@ -46,10 +46,10 @@ The control node (the machine from where you will orchestrate the setup) must...
 
 | Playbook            | Description                                                                                                                                                               |              Documentation               |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------: |
-| basics              | Sets up your server with sensible defaults. Every server, regardless of purpose, must have these configurations. It's best to run this before any of the other playbooks. |       [docs.md](./basics/docs.md)        |
-| cockpit             | Installs [Cockpit](https://cockpit-project.org/) & [Cockpit Navigator](https://github.com/45Drives/cockpit-navigator).                                                    |       [docs.md](./cockpit/docs.md)       |
-| coolify             | Installs [Coolify](https://coolify.io/)                                                                                                                                   |       [docs.md](./coolify/docs.md)       |
-| coolify_postinstall | Closes ports 8000, 6001, and 6002. See [this GitHub discussion](https://github.com/coollabsio/coolify/discussions/4031) for more information.                             | [docs.md](./coolify_postinstall/docs.md) |
+| basics              | Sets up your server with sensible defaults. Every server, regardless of purpose, must have these configurations. It's best to run this before any of the other playbooks. |       [DOCS.md](./basics/DOCS.md)        |
+| cockpit             | Installs [Cockpit](https://cockpit-project.org/) & [Cockpit Navigator](https://github.com/45Drives/cockpit-navigator).                                                    |       [DOCS.md](./cockpit/DOCS.md)       |
+| coolify             | Installs [Coolify](https://coolify.io/)                                                                                                                                   |       [DOCS.md](./coolify/DOCS.md)       |
+| coolify_postinstall | Closes ports 8000, 6001, and 6002. See [this GitHub discussion](https://github.com/coollabsio/coolify/discussions/4031) for more information.                             | [DOCS.md](./coolify_postinstall/DOCS.md) |
 
 ## 💻 Usage
 
