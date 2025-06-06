@@ -8,7 +8,6 @@
         gather_subset:
           - network
 
-  tasks:
     # See https://coolify.io/docs/knowledge-base/server/openssh
     - name: Set sshd_config 'PermitRootLogin' to 'prohibit-password'
       ansible.builtin.lineinfile:
@@ -17,6 +16,7 @@
         line: "PermitRootLogin prohibit-password"
       notify: Restart sshd
 
+  tasks:
     - name: Install Coolify
       shell: curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
       args:
