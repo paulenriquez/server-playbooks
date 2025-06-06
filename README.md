@@ -40,7 +40,7 @@ The target hosts must...
 The control node (the machine from where you will orchestrate the setup) must...
 
 - have Ansible installed.
-- have `sshpass` installed (required by `create_user.yml`)
+- have `sshpass` installed (required by `create_user.sh`)
 
 ## 📚 Playbooks
 
