@@ -13,5 +13,3 @@ Installs [Coolify](https://coolify.io/)
 Once installed, Coolify will be accessible at `http://<YOUR_SERVER_IP>:8000`
 
 **After installation...** proceed with creating your admin account. Then, go to **Settings** → **Instance Domain** and set your Coolify instance's domain. This will ensure that your Coolify admin panel is accessible through your own domain.
-
--

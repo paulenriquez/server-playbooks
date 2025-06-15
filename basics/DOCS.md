@@ -9,5 +9,3 @@ Sets up your server with sensible defaults. Every server, regardless of purpose,
 - **Sets-up Fail2Ban** — bans IPs for 24 hours after 5 failed ssh login attempts within 10 minutes.
 - **Sets-up NTP**
 - **Clears Debian MOTD**
-
--
