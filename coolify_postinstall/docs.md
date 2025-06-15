@@ -8,3 +8,5 @@ This addresses the problem where, after setting your instance domain, Coolify re
 
 > [!CAUTION]
 > Make sure that you've successfully set-up your Coolify's **Instance Domain** before running this playbook. Otherwise, you might not be able to access your Coolify instance easily anymore.
+
+-

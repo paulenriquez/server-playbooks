@@ -9,3 +9,5 @@ Once installed, Cockpit can be accessed via SSH local port forwarding at Port 90
 ```bash
 ssh -L 9090:<YOUR_SERVER_ADDRESS>:9090 <username>@<YOUR_SERVER_ADDRESS>
 ```
+
+-
