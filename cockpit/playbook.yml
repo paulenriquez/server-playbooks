@@ -21,12 +21,40 @@
             url: https://github.com/45Drives/cockpit-navigator/releases/download/v0.5.10/cockpit-navigator_0.5.10-1focal_all.deb
             dest: /tmp/cockpit-navigator_0.5.10-1focal_all.deb
             mode: "0644"
+
         - name: Install Cockpit Navigator
           ansible.builtin.apt:
             deb: /tmp/cockpit-navigator_0.5.10-1focal_all.deb
             state: present
 
+    - name: Bind Cockpit to localhost
+      block:
+        - name: Create cockpit.socket.d directory
+          ansible.builtin.file:
+            path: /etc/systemd/system/cockpit.socket.d/
+            state: directory
+            mode: "0755"
+
+        - name: Create listen.conf file
+          ansible.builtin.template:
+            src: listen.conf.j2
+            dest: /etc/systemd/system/cockpit.socket.d/listen.conf
+            mode: "0644"
+          notify:
+            - Reload systemd daemon
+            - Restart cockpit.socket
+
     - name: Modify /etc/motd.d/cockpit
       ansible.builtin.copy:
         dest: /etc/motd.d/cockpit
         content: "Web Console (Cockpit) is available at Port 9090 via SSH Local Port Forwarding\n\n"
+
+  handlers:
+    - name: Reload systemd daemon
+      ansible.builtin.systemd:
+        daemon_reload: yes
+
+    - name: Restart cockpit.socket
+      ansible.builtin.systemd:
+        name: cockpit.socket
+        state: restarted
