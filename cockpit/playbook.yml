@@ -47,7 +47,7 @@
     - name: Modify /etc/motd.d/cockpit
       ansible.builtin.copy:
         dest: /etc/motd.d/cockpit
-        content: "Web Console (Cockpit) is running on http://localhost:9090. \n\n"
+        content: "Web Console (Cockpit) is running on http://localhost:9090\n\n"
 
   handlers:
     - name: Reload systemd daemon
